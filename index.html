@@ -53,6 +53,15 @@
         </div>
       </section>
 
+      <section class="playback-stage section" aria-label="Now playing">
+        <div class="section-head"><div><p class="eyebrow">NOW PLAYING</p><h2>VYBE player</h2></div><span id="playerState" class="player-state">Ready</span></div>
+        <div id="stage" class="video-stage" hidden>
+          <div id="youtubePlayer" aria-label="Official YouTube video player"></div>
+        </div>
+        <p id="stageMessage" class="stage-message">Choose a track to begin.</p>
+        <p class="playback-note">VYBE only plays sources explicitly configured as authorized. YouTube videos are embedded here using the official player.</p>
+      </section>
+
       <section class="section" id="search">
         <div class="section-head">
           <div><p class="eyebrow">DISCOVER</p><h2>Quick picks</h2></div>
@@ -76,19 +85,19 @@
   <section class="player" id="player">
     <div class="now-playing">
       <div class="track-cover" id="playerCover">♪</div>
-      <div class="track-meta"><strong id="playerTitle">Select a song</strong><span id="playerArtist">Official YouTube playback</span></div>
+      <div class="track-meta"><strong id="playerTitle">Select a song</strong><span id="playerArtist">Choose an authorized source</span></div>
     </div>
     <div class="transport">
       <div class="controls"><button id="prevBtn">⏮</button><button id="playBtn" class="play-btn">▶</button><button id="nextBtn">⏭</button></div>
       <div class="progress"><span id="timeLabel">00:00</span><input id="progressRange" type="range" min="0" max="100" value="0" disabled /><span id="durationLabel">00:00</span></div>
     </div>
+    <label class="volume-control" for="volumeRange">Volume <input id="volumeRange" type="range" min="0" max="100" value="80" /></label>
     <button id="queueBtn" class="queue-btn">☷ Queue</button>
   </section>
 
-  <div id="ytHost" class="yt-host" aria-hidden="true"><div id="youtubePlayer"></div></div>
+  <aside id="queuePanel" class="queue-panel" aria-label="Queue"><div class="queue-head"><strong>Queue</strong><button id="closeQueue" aria-label="Close queue">×</button></div><div id="queueList"></div></aside>
   <div id="toast" class="toast"></div>
 
   <script src="script.js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
