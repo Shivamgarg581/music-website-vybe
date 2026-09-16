@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090b" />
+  <title>Vybe — Hindi Music</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-dot"></span><span>VYBE</span></div>
+      <nav>
+        <a class="nav-item active" href="#home">⌂ <span>Home</span></a>
+        <a class="nav-item" href="#search">⌕ <span>Search</span></a>
+        <a class="nav-item" href="#library">▣ <span>Your Library</span></a>
+      </nav>
+      <div class="sidebar-section">
+        <p class="eyebrow">Your playlists</p>
+        <button class="playlist-link">＋ Create Playlist</button>
+        <button class="playlist-link">♡ Liked Songs</button>
+        <button class="playlist-link">◷ Recently Played</button>
+      </div>
+      <div class="sidebar-note">
+        <strong>Powered by YouTube</strong>
+        <span>Playback uses the official YouTube embedded player.</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" placeholder="Search Hindi songs, artists, albums..." autocomplete="off" />
+        </div>
+        <button class="profile">S</button>
+      </header>
+
+      <section id="home" class="hero">
+        <div>
+          <p class="eyebrow">WELCOME TO VYBE</p>
+          <h1>Feel the music.<br><span>Live the moment.</span></h1>
+          <p class="hero-copy">Discover Hindi music, build playlists, and enjoy official YouTube playback inside a music-first interface.</p>
+          <button id="exploreBtn" class="primary-btn">Explore Hindi Music <span>→</span></button>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orb orb-one"></div><div class="orb orb-two"></div>
+          <div class="vinyl"><div class="vinyl-hole"></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="search">
+        <div class="section-head">
+          <div><p class="eyebrow">DISCOVER</p><h2>Quick picks</h2></div>
+          <button id="clearSearch" class="ghost-btn">Clear</button>
+        </div>
+        <div id="results" class="song-grid"></div>
+      </section>
+
+      <section class="section" id="library">
+        <div class="section-head"><div><p class="eyebrow">MOODS</p><h2>Browse by vibe</h2></div></div>
+        <div class="mood-grid">
+          <button class="mood-card mood-love" data-query="Hindi romantic songs">Love & Romance</button>
+          <button class="mood-card mood-lofi" data-query="Hindi lofi songs">Late Night LoFi</button>
+          <button class="mood-card mood-heart" data-query="Hindi heartbreak songs">Heartbreak</button>
+          <button class="mood-card mood-bolly" data-query="Bollywood Hindi songs">Bollywood</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <section class="player" id="player">
+    <div class="now-playing">
+      <div class="track-cover" id="playerCover">♪</div>
+      <div class="track-meta"><strong id="playerTitle">Select a song</strong><span id="playerArtist">Official YouTube playback</span></div>
+    </div>
+    <div class="transport">
+      <div class="controls"><button id="prevBtn">⏮</button><button id="playBtn" class="play-btn">▶</button><button id="nextBtn">⏭</button></div>
+      <div class="progress"><span id="timeLabel">00:00</span><input id="progressRange" type="range" min="0" max="100" value="0" disabled /><span id="durationLabel">00:00</span></div>
+    </div>
+    <button id="queueBtn" class="queue-btn">☷ Queue</button>
+  </section>
+
+  <div id="ytHost" class="yt-host" aria-hidden="true"><div id="youtubePlayer"></div></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
