@@ -1,18 +1,16 @@
 const songs = [
-  { title: 'Kesariya', artist: 'Arijit Singh', artwork: '♪', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Tum Hi Ho', artist: 'Arijit Singh', artwork: '♫', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Chaleya', artist: 'Arijit Singh, Shilpa Rao', artwork: '✦', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Apna Bana Le', artist: 'Arijit Singh', artwork: '♪', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'O Maahi', artist: 'Arijit Singh', artwork: '♫', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Tujhe Kitna Chahne Lage', artist: 'Arijit Singh', artwork: '✦', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Satranga', artist: 'Arijit Singh', artwork: '♪', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } },
-  { title: 'Ve Kamleya', artist: 'Arijit Singh, Shreya Ghoshal', artwork: '♫', source: { type: 'unavailable', reason: 'No authorized playback source is configured.' } }
+  { title: 'Kesariya', artist: 'Arijit Singh', artwork: '♪', source: { type: 'youtube', authorized: true, videoId: 'NJAv_7lHUIU' } },
+  { title: 'Tum Hi Ho', artist: 'Arijit Singh', artwork: '♫', source: { type: 'youtube', authorized: true, videoId: 'Umqb9KENgmk' } },
+  { title: 'Chaleya', artist: 'Arijit Singh, Shilpa Rao', artwork: '✦', source: { type: 'unavailable', reason: 'No verified playback source is configured yet.' } },
+  { title: 'Apna Bana Le', artist: 'Arijit Singh', artwork: '♪', source: { type: 'unavailable', reason: 'No verified playback source is configured yet.' } },
+  { title: 'O Maahi', artist: 'Arijit Singh', artwork: '♫', source: { type: 'youtube', authorized: true, videoId: 'Zlqf9cuaOBw' } },
+  { title: 'Tujhe Kitna Chahne Lage', artist: 'Arijit Singh', artwork: '✦', source: { type: 'unavailable', reason: 'No verified playback source is configured yet.' } },
+  { title: 'Satranga', artist: 'Arijit Singh', artwork: '♪', source: { type: 'unavailable', reason: 'No verified playback source is configured yet.' } },
+  { title: 'Ve Kamleya', artist: 'Arijit Singh, Shreya Ghoshal', artwork: '♫', source: { type: 'unavailable', reason: 'No verified playback source is configured yet.' } }
 ];
 
-// Catalogue records are populated only by a trusted, server-side catalogue.
-// A playable record must explicitly be marked authorized; do not create IDs or
-// URLs from a client-side search result. `audioUrl` is reserved for music that
-// VYBE owns, licenses, or can otherwise legally stream.
+// Playback sources must be explicitly authorized. Never create IDs or audio URLs
+// from client-side search results, and never extract/re-host protected audio.
 
 const $ = id => document.getElementById(id);
 const sourceLabels = { youtube: 'YouTube', licensed: 'Licensed', owned: 'Owned', creative_commons: 'Creative Commons', unavailable: 'Unavailable' };
@@ -71,7 +69,7 @@ class YouTubeAdapter {
           events: {
             onReady: () => { this.ready = true; resolve(); },
             onStateChange: event => this.handleState(event.data),
-            onError: () => this.onUpdate({ status: 'error', error: 'YouTube could not play this video.' })
+            onError: event => this.onUpdate({ status: 'error', error: `YouTube could not play this video (error ${event.data}).` })
           }
         });
       });
@@ -94,7 +92,6 @@ class YouTubeAdapter {
   seek(seconds) { this.player?.seekTo(seconds, true); }
   volume(value) { this.player?.setVolume(value); }
   metrics() { return { currentTime: this.player?.getCurrentTime?.() || 0, duration: this.player?.getDuration?.() || 0 }; }
-  destroy() { this.player?.destroy(); this.player = null; this.ready = false; }
 }
 
 class NativeAudioAdapter {
@@ -189,7 +186,7 @@ class PlaybackController {
     $('timeLabel').textContent = formatTime(currentTime);
     $('durationLabel').textContent = formatTime(duration);
     $('progressRange').disabled = !duration;
-    if (duration && !document.activeElement.matches('#progressRange')) $('progressRange').value = currentTime / duration * 100;
+    if (duration && document.activeElement !== $('progressRange')) $('progressRange').value = currentTime / duration * 100;
   }
 }
 
